@@ -1,0 +1,126 @@
+ Docker Installation & First Container Demo (AWS EC2 – Ubuntu)
+
+This demo explains how to install Docker on an Ubuntu EC2 instance, verify the installation, build a Docker image, run a container, and push the image to Docker Hub.
+
+🔧 Step 1: Install Docker on Ubuntu EC2
+
+Update the package index and install Docker:
+
+sudo apt update
+sudo apt install docker.io -y
+
+▶️ Step 2: Start Docker Daemon
+
+Docker commands will not work unless the Docker daemon is running.
+
+Check Docker service status:
+
+sudo systemctl status docker
+
+
+If Docker is not running, start it:
+
+sudo systemctl start docker
+
+
+(Optional) Enable Docker to start on boot:
+
+sudo systemctl enable docker
+
+👤 Step 3: Grant Docker Access to User
+
+By default, only root can run Docker commands.
+To avoid using sudo every time, add the user to the Docker group.
+
+sudo usermod -aG docker ubuntu
+
+
+⚠️ Important: Logout and login again for the changes to take effect.
+
+Verify group assignment:
+
+groups
+
+✅ Step 4: Verify Docker Installation
+
+Run the official Docker test container:
+
+docker run hello-world
+
+
+Expected output:
+
+Hello from Docker!
+This message shows that your installation appears to be working correctly.
+
+
+If this works, Docker is installed and running correctly 🎉
+
+📂 Step 5: Clone Demo Repository
+
+Clone the demo repository and navigate into the project directory:
+
+git clone https://github.com/dubbakanavya/docker_demo.git
+cd docker_demo/examples
+
+🔐 Step 6: Login to Docker Hub
+
+Login using your Docker Hub credentials:
+
+docker login
+
+
+You will be prompted for:
+
+Docker Hub Username
+
+Docker Hub Password or Access Token
+
+Successful login output:
+
+Login Succeeded
+
+🏗️ Step 7: Build Docker Image
+
+Build the Docker image using the Dockerfile:
+
+docker build -t dubbakanavya/my-first-docker:latest .
+
+
+This command:
+
+Reads instructions from Dockerfile
+
+Creates a Docker image
+
+Tags it for Docker Hub
+
+▶️ Step 8: Run Docker Container
+
+Run the container from the built image:
+
+docker run -it dubbakanavya/my-first-docker
+
+
+Expected output:
+
+Hello World
+
+
+This confirms the container is running successfully.
+
+📤 Step 9: Push Image to Docker Hub
+
+Push the Docker image to Docker Hub:
+
+docker push dubbakanavya/my-first-docker
+
+
+Expected output:
+
+Using default tag: latest
+The push refers to repository [docker.io/dubbakanavya/my-first-docker]
+latest: digest: sha256:xxxx size: xxxx
+
+
+The image is now publicly available on Docker Hub.
