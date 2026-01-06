@@ -1,0 +1,103 @@
+#Build an image in docker 
+ubuntu@private-ip:~/docker_demo/multi_stage_docker_demo$ docker build -t simplecalculation .
+DEPRECATED: The legacy builder is deprecated and will be removed in a future release.
+            Install the buildx component to build images with BuildKit:
+            https://docs.docker.com/go/buildx/
+
+Sending build context to Docker daemon  3.072kB
+Step 1/7 : FROM python:3.12 AS builder
+3.12: Pulling from library/python
+281b80c799de: Pulling fs layer
+15f14138abe4: Pulling fs layer
+378c64c44580: Pulling fs layer
+02e37abc533a: Pulling fs layer
+562ac0048a1a: Pulling fs layer
+f3cb68e05539: Pulling fs layer
+6c62af51d7c1: Pulling fs layer
+562ac0048a1a: Waiting
+f3cb68e05539: Waiting
+6c62af51d7c1: Waiting
+02e37abc533a: Waiting
+15f14138abe4: Verifying Checksum
+15f14138abe4: Download complete
+281b80c799de: Verifying Checksum
+281b80c799de: Download complete
+378c64c44580: Verifying Checksum
+378c64c44580: Download complete
+562ac0048a1a: Verifying Checksum
+562ac0048a1a: Download complete
+f3cb68e05539: Verifying Checksum
+f3cb68e05539: Download complete
+6c62af51d7c1: Verifying Checksum
+6c62af51d7c1: Download complete
+02e37abc533a: Verifying Checksum
+02e37abc533a: Download complete
+281b80c799de: Pull complete
+15f14138abe4: Pull complete
+378c64c44580: Pull complete
+02e37abc533a: Pull complete
+562ac0048a1a: Pull complete
+f3cb68e05539: Pull complete
+6c62af51d7c1: Pull complete
+Digest: sha256:f3396041c12dac446a6b824cbb027ad9f65f6836fef93fc0187e0380ebf10fe3
+Status: Downloaded newer image for python:3.12
+ ---> a592bd1f6835
+Step 2/7 : WORKDIR /build
+ ---> Running in 209ff1e6c50d
+ ---> Removed intermediate container 209ff1e6c50d
+ ---> 16b01dc22ce2
+Step 3/7 : COPY app.py .
+ ---> cea6a0af8eb7
+Step 4/7 : FROM python:3.12-slim
+3.12-slim: Pulling from library/python
+02d7611c4eae: Pulling fs layer
+fe2d526e7d41: Pulling fs layer
+61a9f733534e: Pulling fs layer
+d7c2baa095fb: Pulling fs layer
+d7c2baa095fb: Waiting
+fe2d526e7d41: Verifying Checksum
+fe2d526e7d41: Download complete
+61a9f733534e: Verifying Checksum
+61a9f733534e: Download complete
+02d7611c4eae: Verifying Checksum
+02d7611c4eae: Download complete
+d7c2baa095fb: Verifying Checksum
+d7c2baa095fb: Download complete
+02d7611c4eae: Pull complete
+fe2d526e7d41: Pull complete
+61a9f733534e: Pull complete
+d7c2baa095fb: Pull complete
+Digest: sha256:a75662dfec8d90bd7161c91050be2e0a9b21d284f3b7a7253d5db25f7d583fb3
+Status: Downloaded newer image for python:3.12-slim
+ ---> 7c5aeff4dbf9
+Step 5/7 : WORKDIR /app
+ ---> Running in 86b48b569aab
+ ---> Removed intermediate container 86b48b569aab
+ ---> 151d96fea1a7
+Step 6/7 : COPY --from=builder /build/app.py .
+ ---> 085905834bf2
+Step 7/7 : CMD ["python3", "app.py"]
+ ---> Running in 6f51a8facf81
+ ---> Removed intermediate container 6f51a8facf81
+ ---> 96561059d4a9
+Successfully built 96561059d4a9
+Successfully tagged simplecalculation:latest
+
+#listing docker images
+ubuntu@private-ip:~/docker_demo/multi_stage_docker_demo$ docker images
+REPOSITORY                     TAG         IMAGE ID       CREATED          SIZE
+simplecalculation              latest      96561059d4a9   5 seconds ago    119MB
+<none>                         <none>      cea6a0af8eb7   10 seconds ago   1.11GB
+dubbakanavya/my-first-docker   latest      7553cde77632   24 hours ago     555MB
+python                         3.12        a592bd1f6835   7 days ago       1.11GB
+python                         3.12-slim   7c5aeff4dbf9   7 days ago       119MB
+ubuntu                         latest      c3a134f2ace4   2 months ago     78.1MB
+hello-world                    latest      1b44b5a3e06a   5 months ago     10.1kB
+
+#ruuning the calculator
+ubuntu@private-ip:~/docker_demo/multi_stage_docker_demo$ docker run simplecalculation
+Calculator Operations:
+Addition:  15
+Subtraction:  5
+Multiplication:  50
+Division:  2.0
