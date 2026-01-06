@@ -1,0 +1,17 @@
+Multi-Stage Docker – Overview
+
+Multi-stage Docker builds allow you to use multiple FROM instructions within a single Dockerfile to separate the build environment from the runtime environment. In the first stage, all build-time tasks such as compiling code or installing dependencies are performed. In the final stage, only the required artifacts (application code and runtime dependencies) are copied, resulting in a smaller, faster, and more secure image.
+
+This approach solves common problems found in single-stage images, such as large image size, unnecessary build tools in production, and increased security risk. Multi-stage builds are widely used in production deployments, CI/CD pipelines, and container orchestration platforms.
+
+How Multi-Stage Dockerfiles Work
+
+A multi-stage Dockerfile typically contains two stages:
+
+Builder stage: Uses a full base image to install dependencies or build the application.
+
+Runtime stage: Uses a lightweight base image and copies only the necessary output from the builder stage using COPY --from.
+
+The Multi-stage docker containers are used for
+1.size of file reducing [EX: 812MB of one file size to 2.5MB size]
+2.adding the security to files
